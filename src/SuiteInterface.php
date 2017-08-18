@@ -3,9 +3,9 @@
 namespace MiniSuite;
 
 /**
- * MiniSuite
+ * MiniSuite interface
  */
-class Suite implements SuiteInterface
+interface SuiteInterface
 {
     /**
      * Add a test
@@ -14,18 +14,12 @@ class Suite implements SuiteInterface
      * @param callable $test
      * @return void
      */
-    public function add($name, callable $test) : void
-    {
-
-    }
+    public function add($name, callable $test) : void;
 
     /**
      * Run the tests
      *
      * @return array
      */
-    public function run() : void
-    {
-
-    }
+    public function run() : void;
 }
