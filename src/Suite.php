@@ -55,16 +55,14 @@ final class Suite implements SuiteInterface
     public function run() : void
     {
         // Define assert function
-        $assert = function($value) {
+        $assert = function ($value) {
             return new Value($value);
         };
         // Run each test
         foreach ($this->tests as $name => $test) {
             try {
                 call_user_func($test, $assert);
-            }
-            catch(AssertionError $e) {
-
+            } catch (AssertionError $e) {
             }
         }
     }
