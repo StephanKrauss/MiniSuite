@@ -2,10 +2,12 @@
 
 namespace MiniSuite;
 
+use AssertionError;
+
 /**
  * MiniSuite
  */
-class Suite implements SuiteInterface
+final class Suite implements SuiteInterface
 {
     /**
      * Suite name
@@ -19,16 +21,18 @@ class Suite implements SuiteInterface
      *
      * @var array
      */
-    protected $tests = [];
+    protected $tests;
 
     /**
      * Constructor
      *
      * @param string $name
+     * @param array $options
      */
     public function __construct(string $name)
     {
         $this->name = $name;
+        $this->tests = [];
     }
 
     /**
@@ -50,19 +54,18 @@ class Suite implements SuiteInterface
      */
     public function run() : void
     {
-        // Prepare
-        $helper = new Helper();
-        // Change directives
-        $assertException = ini_get('assert.exception');
-        ini_set('assert.exception', '1');
-        // Run tests
+        // Define assert function
+        $assert = function($value) {
+            return new Value($value);
+        };
+        // Run each test
         foreach ($this->tests as $name => $test) {
             try {
-                call_user_func($test, $helper);
+                call_user_func($test, $assert);
             }
-            catch() {}
+            catch(AssertionError $e) {
+
+            }
         }
-        // Restore directives
-        ini_set('assert.exception', $assertException);
     }
 }

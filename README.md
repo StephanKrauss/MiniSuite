@@ -18,8 +18,6 @@ Example
 Notes
 -----
 
-The `assert` PHP instruction will only run if the `zend.assertions` directive is set to `1`. Please update your `php.ini` if this is not the case. Consider to run unit tests only in development environments. Here's some explanations on [assert](http://php.net/manual/en/function.assert.php) behavior.
-
 License
 -------
 
