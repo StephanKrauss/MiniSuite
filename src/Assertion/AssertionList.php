@@ -14,7 +14,7 @@ final class Assertion implements AssertionInterface
      *
      * @var mixed
      */
-    protected $value;
+    private $value;
 
     /**
      * Constructor

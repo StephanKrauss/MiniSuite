@@ -15,14 +15,14 @@ final class Suite implements SuiteInterface
      *
      * @var string
      */
-    protected $name;
+    private $name;
 
     /**
      * Test list
      *
      * @var array
      */
-    protected $tests;
+    private $tests;
 
     /**
      * Constructor
