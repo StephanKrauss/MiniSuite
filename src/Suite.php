@@ -3,6 +3,7 @@
 namespace MiniSuite;
 
 use AssertionError;
+use MiniSuite\Assertion\AssertionList;
 
 /**
  * MiniSuite
@@ -56,7 +57,7 @@ final class Suite implements SuiteInterface
     {
         // Define assert function
         $assert = function ($value) {
-            return new Value($value);
+            return new AssertionList($value);
         };
         // Run each test
         foreach ($this->tests as $name => $test) {
