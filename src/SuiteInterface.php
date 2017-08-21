@@ -8,6 +8,13 @@ namespace MiniSuite;
 interface SuiteInterface
 {
     /**
+     * Constructor
+     *
+     * @param string $name
+     */
+    public function __construct(string $name);
+
+    /**
      * Add a test
      *
      * @param string $name

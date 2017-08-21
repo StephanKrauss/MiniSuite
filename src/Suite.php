@@ -28,7 +28,6 @@ final class Suite implements SuiteInterface
      * Constructor
      *
      * @param string $name
-     * @param array $options
      */
     public function __construct(string $name)
     {
