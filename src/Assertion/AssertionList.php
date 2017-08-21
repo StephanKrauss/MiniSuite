@@ -5,7 +5,7 @@ namespace MiniSuite\Assertion;
 use AssertionError;
 use Exception;
 use MiniSuite\Message\FailMessage;
-use MiniSuite\Value\FormattedValue;
+use MiniSuite\Variable\DumpedVariable;
 
 /**
  * Assertion
@@ -42,7 +42,7 @@ final class Assertion implements AssertionInterface
             (string) new FailMessage(
                 $message,
                 array_map(function ($value) {
-                    return new FormattedValue($value);
+                    return new DumpedVariable($value);
                 }, $dump)
             )
         );
