@@ -2,10 +2,7 @@
 
 namespace MiniSuite\Assertion;
 
-use AssertionError;
 use Exception;
-use MiniSuite\Message\FailMessage;
-use MiniSuite\Variable\DumpedVariable;
 
 /**
  * Assertion
@@ -30,25 +27,6 @@ final class Assertion implements AssertionInterface
     }
 
     /**
-     * Throw an assertion error
-     *
-     * @param string $message
-     * @param array $dump
-     * @return void
-     */
-    protected function _throwAssertionError(string $message, array $dump = []) : void
-    {
-        throw new AssertionError(
-            (string) new FailMessage(
-                $message,
-                array_map(function ($value) {
-                    return new DumpedVariable($value);
-                }, $dump)
-            )
-        );
-    }
-
-    /**
      * Assert that both values are the same
      *
      * @param mixed $expected
@@ -57,7 +35,7 @@ final class Assertion implements AssertionInterface
     public function isTheSameAs($expected) : Assertion
     {
         if ($this->value !== $expected) {
-            $this->_throwAssertionError('Both values should be the same', [
+            new FailedAssertion('Both values should be the same', [
                 'current' => $this->value,
                 'expected' => $expected,
             ]);
@@ -74,7 +52,7 @@ final class Assertion implements AssertionInterface
     public function isNotTheSameAs($expected) : Assertion
     {
         if ($this->value === $expected) {
-            $this->_throwAssertionError('Both values should not be the same', [
+            new FailedAssertion('Both values should not be the same', [
                 'current' => $this->value,
                 'expected' => $expected,
             ]);
@@ -91,7 +69,7 @@ final class Assertion implements AssertionInterface
     public function equals(int $expected) : Assertion
     {
         if ($this->value !== $expected) {
-            $this->_throwAssertionError('Should be equal', [
+            new FailedAssertion('Should be equal', [
                 'current' => $this->value,
                 'expected' => $expected,
             ]);
@@ -108,7 +86,7 @@ final class Assertion implements AssertionInterface
     public function doesNotEqual(int $expected) : Assertion
     {
         if ($this->value === $expected) {
-            $this->_throwAssertionError('Should not be equal', [
+            new FailedAssertion('Should not be equal', [
                 'current' => $this->value,
                 'expected' => $expected,
             ]);
@@ -125,7 +103,7 @@ final class Assertion implements AssertionInterface
     public function isLessThan(int $expected) : Assertion
     {
         if ($this->value >= $expected) {
-            $this->_throwAssertionError('Should be less', [
+            new FailedAssertion('Should be less', [
                 'current' => $this->value,
                 'expected' => $expected,
             ]);
@@ -142,7 +120,7 @@ final class Assertion implements AssertionInterface
     public function isLessThanOrEqual(int $expected) : Assertion
     {
         if ($this->value > $expected) {
-            $this->_throwAssertionError('Should be less or equal', [
+            new FailedAssertion('Should be less or equal', [
                 'current' => $this->value,
                 'expected' => $expected,
             ]);
@@ -159,7 +137,7 @@ final class Assertion implements AssertionInterface
     public function isGreaterThan(int $expected) : Assertion
     {
         if ($this->value <= $expected) {
-            $this->_throwAssertionError('Should be greater', [
+            new FailedAssertion('Should be greater', [
                 'current' => $this->value,
                 'expected' => $expected,
             ]);
@@ -176,7 +154,7 @@ final class Assertion implements AssertionInterface
     public function isGreaterThanOrEqual(int $expected) : Assertion
     {
         if ($this->value < $expected) {
-            $this->_throwAssertionError('Should be greater or equal', [
+            new FailedAssertion('Should be greater or equal', [
                 'current' => $this->value,
                 'expected' => $expected,
             ]);
@@ -198,7 +176,7 @@ final class Assertion implements AssertionInterface
             (!$included && ($this->value < $min || $this->value > $max)) ||
             ($included && ($this->value <= $min || $this->value >= $max))
          ) {
-            $this->_throwAssertionError('Should be between', [
+            new FailedAssertion('Should be between', [
                 'current' => $this->value,
                 'min' => $min,
                 'max' => $max,
@@ -222,7 +200,7 @@ final class Assertion implements AssertionInterface
             (!$included && ($this->value > $min || $this->value < $max)) ||
             ($included && ($this->value >= $min || $this->value <= $max))
          ) {
-            $this->_throwAssertionError('Should not be between', [
+            new FailedAssertion('Should not be between', [
                 'current' => $this->value,
                 'min' => $min,
                 'max' => $max,
@@ -240,7 +218,7 @@ final class Assertion implements AssertionInterface
     public function isNull() : Assertion
     {
         if ($this->value !== null) {
-            $this->_throwAssertionError('Should be null', [
+            new FailedAssertion('Should be null', [
                 'current' => $this->value,
             ]);
         }
@@ -255,7 +233,7 @@ final class Assertion implements AssertionInterface
     public function isNotNull() : Assertion
     {
         if ($this->value === null) {
-            $this->_throwAssertionError('Should not be null', [
+            new FailedAssertion('Should not be null', [
                 'current' => $this->value,
             ]);
         }
@@ -270,7 +248,7 @@ final class Assertion implements AssertionInterface
     public function isBoolean() : Assertion
     {
         if (!is_bool($this->value)) {
-            $this->_throwAssertionError('Should be a boolean', [
+            new FailedAssertion('Should be a boolean', [
                 'current' => $this->value,
             ]);
         }
@@ -285,7 +263,7 @@ final class Assertion implements AssertionInterface
     public function isNotBoolean() : Assertion
     {
         if (is_bool($this->value)) {
-            $this->_throwAssertionError('Should not be a boolean', [
+            new FailedAssertion('Should not be a boolean', [
                 'current' => $this->value,
             ]);
         }
@@ -300,7 +278,7 @@ final class Assertion implements AssertionInterface
     public function isInteger() : Assertion
     {
         if (!is_int($this->value)) {
-            $this->_throwAssertionError('Should be an integer', [
+            new FailedAssertion('Should be an integer', [
                 'current' => $this->value,
             ]);
         }
@@ -315,7 +293,7 @@ final class Assertion implements AssertionInterface
     public function isNotInteger() : Assertion
     {
         if (is_int($this->value)) {
-            $this->_throwAssertionError('Should not be an integer', [
+            new FailedAssertion('Should not be an integer', [
                 'current' => $this->value,
             ]);
         }
@@ -330,7 +308,7 @@ final class Assertion implements AssertionInterface
     public function isFloat() : Assertion
     {
         if (!is_float($this->value)) {
-            $this->_throwAssertionError('Should be a float number', [
+            new FailedAssertion('Should be a float number', [
                 'current' => $this->value,
             ]);
         }
@@ -345,7 +323,7 @@ final class Assertion implements AssertionInterface
     public function isNotFloat() : Assertion
     {
         if (is_float($this->value)) {
-            $this->_throwAssertionError('Should not be a float number', [
+            new FailedAssertion('Should not be a float number', [
                 'current' => $this->value,
             ]);
         }
@@ -360,7 +338,7 @@ final class Assertion implements AssertionInterface
     public function isString() : Assertion
     {
         if (!is_string($value)) {
-            $this->_throwAssertionError('Should be a string', [
+            new FailedAssertion('Should be a string', [
                 'current' => $this->value,
             ]);
         }
@@ -375,7 +353,7 @@ final class Assertion implements AssertionInterface
     public function isNotString() : Assertion
     {
         if (is_string($value)) {
-            $this->_throwAssertionError('Should not be a string', [
+            new FailedAssertion('Should not be a string', [
                 'current' => $this->value,
             ]);
         }
@@ -390,7 +368,7 @@ final class Assertion implements AssertionInterface
     public function isArray() : Assertion
     {
         if (!is_array($this->value)) {
-            $this->_throwAssertionError('Should be an array', [
+            new FailedAssertion('Should be an array', [
                 'current' => $this->value,
             ]);
         }
@@ -405,7 +383,7 @@ final class Assertion implements AssertionInterface
     public function isNotArray() : Assertion
     {
         if (is_array($this->value)) {
-            $this->_throwAssertionError('Should not be an array', [
+            new FailedAssertion('Should not be an array', [
                 'current' => $this->value,
             ]);
         }
@@ -420,7 +398,7 @@ final class Assertion implements AssertionInterface
     public function isObject() : Assertion
     {
         if (!is_object($this->value)) {
-            $this->_throwAssertionError('Should be an object', [
+            new FailedAssertion('Should be an object', [
                 'current' => $this->value,
             ]);
         }
@@ -435,7 +413,7 @@ final class Assertion implements AssertionInterface
     public function isNotObject() : Assertion
     {
         if (is_object($this->value)) {
-            $this->_throwAssertionError('Should not be an object', [
+            new FailedAssertion('Should not be an object', [
                 'current' => $this->value,
             ]);
         }
@@ -450,7 +428,7 @@ final class Assertion implements AssertionInterface
     public function isResource() : Assertion
     {
         if (!is_resource($this->value)) {
-            $this->_throwAssertionError('Should be a resource', [
+            new FailedAssertion('Should be a resource', [
                 'current' => $this->value,
             ]);
         }
@@ -465,7 +443,7 @@ final class Assertion implements AssertionInterface
     public function isNotResource() : Assertion
     {
         if (is_resource($this->value)) {
-            $this->_throwAssertionError('Should not be a resource', [
+            new FailedAssertion('Should not be a resource', [
                 'current' => $this->value,
             ]);
         }
@@ -480,7 +458,7 @@ final class Assertion implements AssertionInterface
     public function isCallable() : Assertion
     {
         if (!is_callable($this->value)) {
-            $this->_throwAssertionError('Should be a callable', [
+            new FailedAssertion('Should be a callable', [
                 'current' => $this->value,
             ]);
         }
@@ -495,7 +473,7 @@ final class Assertion implements AssertionInterface
     public function isNotCallable() : Assertion
     {
         if (is_callable($this->value)) {
-            $this->_throwAssertionError('Should not be a callable', [
+            new FailedAssertion('Should not be a callable', [
                 'current' => $this->value,
             ]);
         }
@@ -510,7 +488,7 @@ final class Assertion implements AssertionInterface
     public function isIterable() : Assertion
     {
         if (!is_iterable($this->value)) {
-            $this->_throwAssertionError('Should be iterable', [
+            new FailedAssertion('Should be iterable', [
                 'current' => $this->value,
             ]);
         }
@@ -525,7 +503,7 @@ final class Assertion implements AssertionInterface
     public function isNotIterable() : Assertion
     {
         if (is_iterable($this->value)) {
-            $this->_throwAssertionError('Should not be iterable', [
+            new FailedAssertion('Should not be iterable', [
                 'current' => $this->value,
             ]);
         }
@@ -542,7 +520,7 @@ final class Assertion implements AssertionInterface
     {
         $this->isObject();
         if (!($this->value instanceof $class)) {
-            $this->_throwAssertionError("Should be an instance of '$class'", [
+            new FailedAssertion("Should be an instance of '$class'", [
                 'current' => $this->value,
             ]);
         }
@@ -559,7 +537,7 @@ final class Assertion implements AssertionInterface
     {
         $this->isObject();
         if ($this->value instanceof $class) {
-            $this->_throwAssertionError("Should not be an instance of '$class'", [
+            new FailedAssertion("Should not be an instance of '$class'", [
                 'current' => $this->value,
             ]);
         }
@@ -576,7 +554,7 @@ final class Assertion implements AssertionInterface
     {
         $this->isObject();
         if (!is_subclass_of($value, $class)) {
-            $this->_throwAssertionError("Should extend '$class'", [
+            new FailedAssertion("Should extend '$class'", [
                 'current' => $this->value,
             ]);
         }
@@ -593,7 +571,7 @@ final class Assertion implements AssertionInterface
     {
         $this->isObject();
         if (is_subclass_of($value, $class)) {
-            $this->_throwAssertionError("Should not extend '$class'", [
+            new FailedAssertion("Should not extend '$class'", [
                 'current' => $this->value,
             ]);
         }
@@ -613,12 +591,12 @@ final class Assertion implements AssertionInterface
             call_user_func($this->value);
         } catch (Exception $e) {
             if ($name !== null && $e instanceof $name === false) {
-                $this->_throwAssertionError("Should have thrown a '$name' exception", [
+                new FailedAssertion("Should have thrown a '$name' exception", [
                     'exception' => $e,
                 ]);
             }
         }
-        $this->_throwAssertionError('Should have thrown an exception');
+        new FailedAssertion('Should have thrown an exception');
         return $this;
     }
 
@@ -635,11 +613,11 @@ final class Assertion implements AssertionInterface
             call_user_func($this->value);
         } catch (Exception $e) {
             if ($name === null) {
-                $this->_throwAssertionError('Should not have thrown an exception', [
+                new FailedAssertion('Should not have thrown an exception', [
                     'exception' => $e,
                 ]);
             } elseif ($e instanceof $name) {
-                $this->_throwAssertionError("Should not have thrown a '$name' exception", [
+                new FailedAssertion("Should not have thrown a '$name' exception", [
                     'exception' => $e,
                 ]);
             }
@@ -657,7 +635,7 @@ final class Assertion implements AssertionInterface
     public function isDefined(array $array, string $index) : Assertion
     {
         if (!isset($array[$index])) {
-            $this->_throwAssertionError('The array element should be defined', [
+            new FailedAssertion('The array element should be defined', [
                 'current' => $this->value,
                 'array' => $array,
                 'index' => $index,
@@ -676,7 +654,7 @@ final class Assertion implements AssertionInterface
     public function isNotDefined(array $array, string $index) : Assertion
     {
         if (isset($array[$index])) {
-            $this->_throwAssertionError('The array element should not be defined', [
+            new FailedAssertion('The array element should not be defined', [
                 'current' => $this->value,
                 'array' => $array,
                 'index' => $index,
