@@ -9,7 +9,7 @@ use MiniSuite\Variable\DumpedVariable;
 /**
  * Decorator to throw an assertion error
  */
-final class FailedAssertion
+final class FailedAssertion implements FailedAssertionInterface
 {
     /**
      * Throw an assertion error
@@ -18,7 +18,7 @@ final class FailedAssertion
      * @param array $dump
      * @return void
      */
-    protected function __construct(string $message, array $dump = [])
+    public function __construct(string $message, array $dump = [])
     {
         throw new AssertionError(
             (string) new FailMessage(
