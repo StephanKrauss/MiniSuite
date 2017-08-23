@@ -8,13 +8,6 @@ namespace MiniSuite\Output;
 final class SuccessMessage implements MessageInterface
 {
     /**
-     * The message
-     *
-     * @var string
-     */
-    private $message;
-
-    /**
      * The output
      *
      * @var CliOutput
@@ -23,11 +16,8 @@ final class SuccessMessage implements MessageInterface
 
     /**
      * Constructor
-     *
-     * @param string $message
      */
-    public function __construct(string $message){
-        $this->message = $message;
+    public function __construct(){
         $this->output = new CliOutput();
     }
 

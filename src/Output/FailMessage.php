@@ -12,7 +12,7 @@ final class FailMessage implements MessageInterface
      *
      * @var string
      */
-    private $message;
+    private $error;
 
     /**
      * The output
@@ -26,8 +26,8 @@ final class FailMessage implements MessageInterface
      *
      * @param string $message
      */
-    public function __construct(string $message){
-        $this->message = $message;
+    public function __construct(string $error){
+        $this->error = $error;
         $this->output = new CliOutput();
     }
 

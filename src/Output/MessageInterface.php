@@ -8,13 +8,6 @@ namespace MiniSuite\Output;
 interface MessageInterface
 {
     /**
-     * Constructor
-     *
-     * @param string $message
-     */
-    public function __construct(string $message);
-
-    /**
      * Print the message
      *
      * @return void
