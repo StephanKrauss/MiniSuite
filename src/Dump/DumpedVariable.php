@@ -5,7 +5,7 @@ namespace MiniSuite\Dump;
 /**
  * Dump interface
  */
-final class DumpedVariable implements DumpInterface
+final class DumpedVariable implements DumpedVariableInterface
 {
     /**
      * Variable to dump
