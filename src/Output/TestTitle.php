@@ -8,11 +8,11 @@ namespace MiniSuite\Output;
 final class TestTitle implements MessageInterface
 {
     /**
-     * The title
+     * The text
      *
      * @var string
      */
-    private $title;
+    private $text;
 
     /**
      * The output
@@ -24,10 +24,11 @@ final class TestTitle implements MessageInterface
     /**
      * Constructor
      *
-     * @param string $message
+     * @param string $text
      */
-    public function __construct(string $title){
-        $this->message = $message;
+    public function __construct(string $text)
+    {
+        $this->text = $text;
         $this->output = new CliOutput();
     }
 
@@ -38,6 +39,5 @@ final class TestTitle implements MessageInterface
      */
     public function print() : void
     {
-
     }
 }

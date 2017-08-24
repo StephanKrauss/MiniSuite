@@ -8,11 +8,11 @@ namespace MiniSuite\Output;
 final class FailMessage implements MessageInterface
 {
     /**
-     * The message
+     * The text
      *
      * @var string
      */
-    private $error;
+    private $text;
 
     /**
      * The output
@@ -24,10 +24,11 @@ final class FailMessage implements MessageInterface
     /**
      * Constructor
      *
-     * @param string $message
+     * @param string $text
      */
-    public function __construct(string $error){
-        $this->error = $error;
+    public function __construct(string $text)
+    {
+        $this->text = $text;
         $this->output = new CliOutput();
     }
 
@@ -38,6 +39,5 @@ final class FailMessage implements MessageInterface
      */
     public function print() : void
     {
-
     }
 }
