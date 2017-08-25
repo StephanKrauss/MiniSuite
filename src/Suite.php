@@ -54,16 +54,24 @@ final class Suite implements SuiteInterface
      */
     public function run() : void
     {
+        // Print suite title
+        $suiteTitle = new SuiteTitle($this->name);
+        $suiteTitle->print();
         // Define assert function
         $assert = function ($value) {
             return new AssertionList($value);
         };
         // Run each test
         foreach ($this->tests as $name => $test) {
+            $testTitle = new TestTitle($name);
+            $testTitle->print();
             try {
                 call_user_func($test, $assert);
+                $message = new SuccessMessage('Passed');
             } catch (AssertionError $e) {
+                $message = new FailMessage($e->getMessage());
             }
+            $message->print();
         }
     }
 }
