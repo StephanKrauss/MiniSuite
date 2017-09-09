@@ -1,11 +1,11 @@
 <?php
 
-namespace MiniSuite\Output;
+namespace MiniSuite\Message;
 
 /**
- * Test title
+ * Suite title
  */
-final class TestTitle implements MessageInterface
+final class SuiteTitle implements MessageInterface
 {
     /**
      * The text
@@ -26,18 +26,18 @@ final class TestTitle implements MessageInterface
      *
      * @param string $text
      */
-    public function __construct(string $text)
-    {
+    public function __construct(string $text){
         $this->text = $text;
         $this->output = new CliOutput();
     }
 
     /**
-     * Print the message
+     * Show the message
      *
      * @return void
      */
-    public function print() : void
+    public function show() : void
     {
+
     }
 }

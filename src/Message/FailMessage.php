@@ -1,11 +1,11 @@
 <?php
 
-namespace MiniSuite\Output;
+namespace MiniSuite\Message;
 
 /**
- * Success message
+ * Fail message
  */
-final class SuccessMessage implements MessageInterface
+final class FailMessage implements MessageInterface
 {
     /**
      * The text
@@ -28,15 +28,16 @@ final class SuccessMessage implements MessageInterface
      */
     public function __construct(string $text)
     {
+        $this->text = $text;
         $this->output = new CliOutput();
     }
 
     /**
-     * Print the message
+     * Show the message
      *
      * @return void
      */
-    public function print() : void
+    public function show() : void
     {
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace MiniSuite\Output;
+namespace MiniSuite\Message;
 
 /**
- * Fail message
+ * Test title
  */
-final class FailMessage implements MessageInterface
+final class TestTitle implements MessageInterface
 {
     /**
      * The text
@@ -33,11 +33,11 @@ final class FailMessage implements MessageInterface
     }
 
     /**
-     * Print the message
+     * Show the message
      *
      * @return void
      */
-    public function print() : void
+    public function show() : void
     {
     }
 }
