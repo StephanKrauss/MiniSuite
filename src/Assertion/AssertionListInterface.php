@@ -8,13 +8,6 @@ namespace MiniSuite\Assertion;
 interface AssertionInterface
 {
     /**
-     * Constructor
-     *
-     * @param mixed $value
-     */
-    public function __construct($value);
-
-    /**
      * Assert that both values are the same
      *
      * @param mixed $expected

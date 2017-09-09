@@ -8,13 +8,6 @@ namespace MiniSuite\Dump;
 interface DumpedVariableInterface
 {
     /**
-     * Constructor
-     *
-     * @param mixed $variable
-     */
-    public function __construct($variable);
-
-    /**
      * Get the entity as a string
      *
      * @return string
