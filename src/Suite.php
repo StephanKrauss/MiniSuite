@@ -57,11 +57,9 @@ final class Suite implements SuiteInterface
      */
     public function run() : void
     {
-        $suiteTitle = new SuiteTitle($this->name);
-        $suiteTitle->show();
+        $this->_showSuiteTitle($this->name);
         foreach ($this->tests as $name => $test) {
-            $testTitle = new TestTitle($name);
-            $testTitle->show();
+            $this->_showTestTitle($name);
             $this->_runTest()->show();
         }
     }
@@ -72,7 +70,7 @@ final class Suite implements SuiteInterface
      * @param callable $test
      * @return MiniSuite\Message\MessageInterface
      */
-    public function _runTest(callable $test) : MessageInterface
+    protected function _runTest(callable $test) : MessageInterface
     {
         try {
             call_user_func($test, function ($value) {
@@ -83,5 +81,29 @@ final class Suite implements SuiteInterface
             $message = new FailMessage($e->getMessage());
         }
         return $message;
+    }
+
+    /**
+     * Show the suite title
+     *
+     * @param string $title
+     * @return void
+     */
+    protected function _showSuiteTitle(string $title) : void
+    {
+        $suiteTitle = new SuiteTitle($title);
+        $suiteTitle->show();
+    }
+
+    /**
+     * Show a test title
+     *
+     * @param string $title
+     * @return void
+     */
+    protected function _showTestTitle(string $title) : void
+    {
+        $testTitle = new TestTitle($title);
+        $testTitle->show();
     }
 }
