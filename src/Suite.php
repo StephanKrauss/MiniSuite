@@ -4,6 +4,9 @@ namespace MiniSuite;
 
 use AssertionError;
 use MiniSuite\Assertion\AssertionGateway;
+use MiniSuite\Message\MessageInterface;
+use MiniSuite\Message\SuccessMessage;
+use MiniSuite\Message\FailMessage;
 
 /**
  * MiniSuite
@@ -54,24 +57,31 @@ final class Suite implements SuiteInterface
      */
     public function run() : void
     {
-        // Print suite title
         $suiteTitle = new SuiteTitle($this->name);
-        $suiteTitle->print();
-        // Define assert function
-        $assert = function ($value) {
-            return new AssertionGateway($value);
-        };
-        // Run each test
+        $suiteTitle->show();
         foreach ($this->tests as $name => $test) {
             $testTitle = new TestTitle($name);
-            $testTitle->print();
-            try {
-                call_user_func($test, $assert);
-                $message = new SuccessMessage('Passed');
-            } catch (AssertionError $e) {
-                $message = new FailMessage($e->getMessage());
-            }
-            $message->print();
+            $testTitle->show();
+            $this->_runTest()->show();
         }
+    }
+
+    /**
+     * Run a test
+     *
+     * @param callable $test
+     * @return MiniSuite\Message\MessageInterface
+     */
+    public function _runTest(callable $test) : MessageInterface
+    {
+        try {
+            call_user_func($test, function ($value) {
+                return new AssertionGateway($value);
+            });
+            $message = new SuccessMessage('Passed');
+        } catch (AssertionError $e) {
+            $message = new FailMessage($e->getMessage());
+        }
+        return $message;
     }
 }
