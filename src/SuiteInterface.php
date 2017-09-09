@@ -10,7 +10,7 @@ interface SuiteInterface
     /**
      * Run the tests
      *
-     * @return array
+     * @return void
      */
     public function run() : void;
 }

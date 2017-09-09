@@ -53,7 +53,7 @@ final class Suite implements SuiteInterface
     /**
      * Run the tests
      *
-     * @return array
+     * @return void
      */
     public function run() : void
     {
