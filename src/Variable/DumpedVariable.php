@@ -1,6 +1,6 @@
 <?php
 
-namespace MiniSuite\Dump;
+namespace MiniSuite\Variable;
 
 /**
  * Dump interface
