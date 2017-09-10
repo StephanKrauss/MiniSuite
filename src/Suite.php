@@ -60,7 +60,7 @@ final class Suite implements SuiteInterface
         $this->_showSuiteTitle($this->name);
         foreach ($this->tests as $name => $test) {
             $this->_showTestTitle($name);
-            $this->_runTest()->show();
+            $this->_runTest();
         }
     }
 
@@ -68,19 +68,29 @@ final class Suite implements SuiteInterface
      * Run a test
      *
      * @param callable $test
-     * @return MiniSuite\Message\MessageInterface
+     * @return void
      */
-    protected function _runTest(callable $test) : MessageInterface
+    protected function _runTest(callable $test) : void
     {
         try {
-            call_user_func($test, function ($value) {
-                return new AssertionGateway($value);
-            });
-            $message = new SuccessMessage('Passed');
+            $this->_callTest($test);
+            $this->_showSuccessMessage('Passed');
         } catch (AssertionError $e) {
-            $message = new FailMessage($e->getMessage());
+            $this->_showFailMessage($e->getMessage());
         }
-        return $message;
+    }
+
+    /**
+     * Call the test callback
+     *
+     * @param callable $test
+     * @return void
+     */
+    protected function _callTest(callable $test) : void
+    {
+        call_user_func($test, function ($value) {
+            return new AssertionGateway($value);
+        });
     }
 
     /**
@@ -105,5 +115,29 @@ final class Suite implements SuiteInterface
     {
         $testTitle = new TestTitle($title);
         $testTitle->show();
+    }
+
+    /**
+     * Show a success message
+     *
+     * @param string $message
+     * @return void
+     */
+    protected function _showSuccessMessage(string $message) : void
+    {
+        $successMessage = new SuccessMessage($message);
+        $successMessage->show();
+    }
+
+    /**
+     * Show a fail message
+     *
+     * @param string $message
+     * @return void
+     */
+    protected function _showFailMessage(string $message) : void
+    {
+        $failMessage = new FailMessage($message);
+        $failMessage->show();
     }
 }
