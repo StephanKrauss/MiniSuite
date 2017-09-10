@@ -2,6 +2,7 @@
 
 namespace MiniSuite;
 
+use Closure;
 use AssertionError;
 use MiniSuite\Assertion\AssertionGateway;
 use MiniSuite\Message\MessageInterface;
@@ -42,10 +43,10 @@ final class Suite implements SuiteInterface
      * Add a test
      *
      * @param string $name
-     * @param callable $test
+     * @param Closure $test
      * @return void
      */
-    public function add($name, callable $test) : void
+    public function add($name, Closure $test) : void
     {
         $this->tests[$name] = $test;
     }
@@ -60,17 +61,17 @@ final class Suite implements SuiteInterface
         $this->_showSuiteTitle($this->name);
         foreach ($this->tests as $name => $test) {
             $this->_showTestTitle($name);
-            $this->_runTest();
+            $this->_runTest($test);
         }
     }
 
     /**
      * Run a test
      *
-     * @param callable $test
+     * @param Closure $test
      * @return void
      */
-    protected function _runTest(callable $test) : void
+    protected function _runTest(Closure $test) : void
     {
         try {
             $this->_callTest($test);
@@ -83,12 +84,12 @@ final class Suite implements SuiteInterface
     /**
      * Call the test callback
      *
-     * @param callable $test
+     * @param Closure $test
      * @return void
      */
-    protected function _callTest(callable $test) : void
+    protected function _callTest(Closure $test) : void
     {
-        call_user_func($test, function ($value) {
+        $test(function ($value) {
             return new AssertionGateway($value);
         });
     }
