@@ -2,41 +2,46 @@
 
 namespace MiniSuite\Message;
 
+use Symfony\Component\Console\Output\OutputInterface;
+
 /**
  * Success message
  */
 final class SuccessMessage implements MessageInterface
 {
+
     /**
-     * The text
+     * The message
      *
      * @var string
      */
-    private $text;
+    private $message;
 
     /**
      * The output
      *
-     * @var CliOutput
+     * @var Symfony\Component\Console\Output\ConsoleOutput
      */
     private $output;
 
     /**
      * Constructor
      *
-     * @param string $text
+     * @param string $message
      */
-    public function __construct(string $text)
+    public function __construct(string $message)
     {
-        $this->output = new CliOutput();
+        $this->message = $message;
     }
 
     /**
-     * Show the message
+     * Print the message
      *
+     * @param OutputInterface $output
      * @return void
      */
-    public function show() : void
+    public function print(OutputInterface $output) : void
     {
+        $output->write('<fg=white;bg=green>' . $this->title . '</>');
     }
 }

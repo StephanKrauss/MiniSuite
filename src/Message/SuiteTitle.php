@@ -2,42 +2,45 @@
 
 namespace MiniSuite\Message;
 
+use Symfony\Component\Console\Output\OutputInterface;
+
 /**
  * Suite title
  */
 final class SuiteTitle implements MessageInterface
 {
     /**
-     * The text
+     * The title
      *
      * @var string
      */
-    private $text;
+    private $title;
 
     /**
      * The output
      *
-     * @var CliOutput
+     * @var Symfony\Component\Console\Output\ConsoleOutput
      */
     private $output;
 
     /**
      * Constructor
      *
-     * @param string $text
+     * @param string $title
      */
-    public function __construct(string $text){
-        $this->text = $text;
-        $this->output = new CliOutput();
+    public function __construct(string $title)
+    {
+        $this->title = $title;
     }
 
     /**
-     * Show the message
+     * Print the message
      *
+     * @param OutputInterface $output
      * @return void
      */
-    public function show() : void
+    public function print(OutputInterface $output) : void
     {
-
+        $output->write('<fg=white;bg=yellow>' . $this->title . '</>');
     }
 }

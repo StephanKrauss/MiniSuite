@@ -5,9 +5,11 @@ namespace MiniSuite;
 use Closure;
 use AssertionError;
 use MiniSuite\Assertion\AssertionGateway;
-use MiniSuite\Message\MessageInterface;
+use MiniSuite\Message\SuiteTitle;
+use MiniSuite\Message\TestTitle;
 use MiniSuite\Message\SuccessMessage;
 use MiniSuite\Message\FailMessage;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
  * MiniSuite
@@ -37,6 +39,7 @@ final class Suite implements SuiteInterface
     {
         $this->name = $name;
         $this->tests = [];
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -58,9 +61,9 @@ final class Suite implements SuiteInterface
      */
     public function run() : void
     {
-        $this->_showSuiteTitle($this->name);
+        $this->_printSuiteTitle($this->name);
         foreach ($this->tests as $name => $test) {
-            $this->_showTestTitle($name);
+            $this->_printTestTitle($name);
             $this->_runTest($test);
         }
     }
@@ -75,9 +78,9 @@ final class Suite implements SuiteInterface
     {
         try {
             $this->_callTest($test);
-            $this->_showSuccessMessage('Passed');
+            $this->_printSuccessMessage('Passed');
         } catch (AssertionError $e) {
-            $this->_showFailMessage($e->getMessage());
+            $this->_printFailMessage($e->getMessage());
         }
     }
 
@@ -95,50 +98,46 @@ final class Suite implements SuiteInterface
     }
 
     /**
-     * Show the suite title
+     * Print the suite title
      *
      * @param string $title
      * @return void
      */
-    protected function _showSuiteTitle(string $title) : void
+    protected function _printSuiteTitle(string $title) : void
     {
-        $suiteTitle = new SuiteTitle($title);
-        $suiteTitle->show();
+        (new SuiteTitle($title))->print($this->output);
     }
 
     /**
-     * Show a test title
+     * Print a test title
      *
      * @param string $title
      * @return void
      */
-    protected function _showTestTitle(string $title) : void
+    protected function _printTestTitle(string $title) : void
     {
-        $testTitle = new TestTitle($title);
-        $testTitle->show();
+        (new TestTitle($title))->print($this->output);
     }
 
     /**
-     * Show a success message
+     * Print a success message
      *
      * @param string $message
      * @return void
      */
-    protected function _showSuccessMessage(string $message) : void
+    protected function _printSuccessMessage(string $message) : void
     {
-        $successMessage = new SuccessMessage($message);
-        $successMessage->show();
+        (new SuccessMessage($message))->print($this->output);
     }
 
     /**
-     * Show a fail message
+     * Print a fail message
      *
      * @param string $message
      * @return void
      */
-    protected function _showFailMessage(string $message) : void
+    protected function _printFailMessage(string $message) : void
     {
-        $failMessage = new FailMessage($message);
-        $failMessage->show();
+        (new FailMessage($message))->print($this->output);
     }
 }

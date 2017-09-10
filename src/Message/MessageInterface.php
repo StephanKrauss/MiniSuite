@@ -8,9 +8,10 @@ namespace MiniSuite\Output;
 interface MessageInterface
 {
     /**
-     * Show the message
+     * Print the message
      *
+     * @param OutputInterface $output
      * @return void
      */
-    public function show() : void;
+    public function print(OutputInterface $output) : void;
 }
